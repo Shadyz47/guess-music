@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đoán tên bài hát</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+
+  <body>
+    <main>
+      <h1>Đoán tên bài hát</h1>
+
+      <p id="message">Đang tải danh sách...</p>
+      <p id="score">Điểm: 0</p>
+      <p id="timer">Thời gian: --</p>
+
+      <audio id="audio-player" controls></audio>
+
+      <form id="guess-form">
+        <input
+          id="guess-input"
+          type="text"
+          placeholder="Nhập tên bài hát..."
+          autocomplete="off"
+          disabled
+        />
+        <button id="guess-button" type="submit" disabled>Đoán</button>
+      </form>
+
+      <button id="next-button" type="button" disabled>Bắt đầu</button>
+    </main>
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>
