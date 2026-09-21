@@ -23,3 +23,21 @@ export function stopSong() {
   audioPlayer.pause();
   audioPlayer.currentTime = 0;
 }
+
+export function pauseSong() {
+  audioPlayer.pause();
+}
+
+export async function resumeSong() {
+  try {
+    await audioPlayer.play();
+  }
+  catch (error) {
+    console.error("Không thể phát nhạc:", error);
+    showMessage("cant not play");
+  }
+}
+
+export function getSongCurrentTime() {
+  return audioPlayer.currentTime;
+}

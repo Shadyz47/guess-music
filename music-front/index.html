@@ -13,9 +13,9 @@
 
       <p id="message">Đang tải danh sách...</p>
       <p id="score">Điểm: 0</p>
-      <p id="timer">Thời gian: --</p>
+      <p id="listen-status">Mức nghe: --</p>
 
-      <audio id="audio-player" controls></audio>
+      <audio id="audio-player"></audio>
 
       <form id="guess-form">
         <input
@@ -28,6 +28,10 @@
         <button id="guess-button" type="submit" disabled>Đoán</button>
       </form>
 
+      <button id="listen-more-button" type="button" disabled>Nghe thêm</button>
+
+      <button id="skip-button" type="button" disabled>Bỏ qua</button>
+      
       <button id="next-button" type="button" disabled>Bắt đầu</button>
     </main>
     <script type="module" src="./js/app.js"></script>

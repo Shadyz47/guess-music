@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Songs {
+public class    Songs {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

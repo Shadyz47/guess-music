@@ -12,6 +12,6 @@ export async function getSongs() {
   return response.json();
 }
 
-export function createAudioUrl(audioUrl){
-    return `${API_URL}${audioUrl}`;
+export function createAudioUrl(audioUrl) {
+  return `${API_URL}${audioUrl}`;
 }
