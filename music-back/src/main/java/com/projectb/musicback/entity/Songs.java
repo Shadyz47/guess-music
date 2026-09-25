@@ -27,6 +27,9 @@ public class    Songs {
     @Column(name = "audio_url", nullable = false)
     private String audio_url;
 
+    @Column(name = "image_url")
+    private String image_url;
+
     @Column(name = "is_active", nullable = false)
     private boolean active;
 }

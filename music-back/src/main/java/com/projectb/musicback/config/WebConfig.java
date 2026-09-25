@@ -15,6 +15,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${app.upload.audio-directory}")
     private String audioDirectory;
 
+    @Value("${app.upload.image-directory}")
+    private String imageDirectory;
+
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         Path audioPath = Paths.get(audioDirectory)
                 .toAbsolutePath()
@@ -22,6 +25,13 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/audio/**")
                 .addResourceLocations(audioPath.toUri().toString());
+
+        Path imagePath = Paths.get(imageDirectory)
+                .toAbsolutePath()
+                .normalize();
+
+        registry.addResourceHandler("/image/**")
+                .addResourceLocations(imagePath.toUri().toString());
     }
 
     @Override
@@ -30,7 +40,7 @@ public class WebConfig implements WebMvcConfigurer {
     ) {
         registry
                 .addMapping("/api/**")
-                .allowedOrigins("http://127.0.0.1:5500")
+                .allowedOrigins("http://127.0.0.1:8082")
                 .allowedMethods("GET");
     }
 }
