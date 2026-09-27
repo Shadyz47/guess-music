@@ -21,6 +21,7 @@ const genreButtons = document.querySelectorAll(".genre-button");
 const resetGenreButton = document.querySelector(".reset-button");
 const closeModalButton = document.querySelector(".close");
 const retryButton = document.querySelector("#retry-button");
+const showScoreHistoryButton = document.querySelector("#show-score-history");
 
 const scoreElement = document.querySelector("#score");
 const listenStatusElement = document.querySelector("#listen-status");
@@ -42,11 +43,13 @@ const gameContainer = document.querySelector("#game-container");
 const allSongContainer = document.querySelector("#all-songs-container");
 
 const allSongsList = document.querySelector("#all-songs-list");
+const scoreHistoryList = document.querySelector("#score-history-list");
 
 //-----------------------------------------------------------------------
-const LISTEN_END_TIMES = [3, 10, 18, Infinity]; // Thời gian nghe nhạc (giây) cho mỗi lượt nghe
-const ROUND_SCORES = [4, 3, 2, 1]; // Điểm số tương ứng với lượt nghe
+const LISTEN_END_TIMES = [3, 10, 18, Infinity]; // Thời gian nghe nhạc 
+const ROUND_SCORES = [4, 3, 2, 1]; // Điểm số 
 let nextSongTimer = null;
+const scoreHistory = JSON.parse(localStorage.getItem("scoreHistory")) || [];
 
 const gameState = {
   songs: [],
@@ -56,6 +59,7 @@ const gameState = {
   score: 0,
   answered: false, //nếu trả lời đúng or bỏ qua thì true, chưa trả lời false
   selectedGenre: null, // Thể loại nhạc đã chọn
+  scoreHistory: scoreHistory, // Lịch sử điểm số
 
   listenLevel: 0, // Mức nghe hiện tại (0: 3 giây, 1: 10 giây, 2: 18 giây, 3: cả bài)
   audioMonitorId: null, // ID cuẩ audio để setInterval để theo dõi thời gian nghe nhạc
@@ -75,7 +79,6 @@ function normalizeText(value) {
 function shuffleSongs(songs) {
   const shuffledSongs = [...songs];
 
-  // Thuật toán Fisher-Yates.
   for (let index = shuffledSongs.length - 1; index > 0; index--) {
     const randomIndex = Math.floor(Math.random() * (index + 1));
 
@@ -108,7 +111,6 @@ function resetAllSongsContainer() {
   allSongsElement.textContent = "";
 }
 
-
 function scheduleNextSong() {
   resetScheduleNextSong();
 
@@ -118,14 +120,13 @@ function scheduleNextSong() {
     seconds--;
 
     if (seconds <= 0) {
-
       resetScheduleNextSong();
       startNextRound();
       return;
     }
 
     timeDownElement.textContent = `Next song in ${seconds}s`;
-  },1000);
+  }, 1000);
 }
 
 function resetScheduleNextSong() {
@@ -478,6 +479,13 @@ function finishGame() {
   modalElement.style.display = "block";
   finalScoreElement.textContent = `Your final score is: ${gameState.score} 🎉🎉`;
 
+  scoreHistory.push({
+    score: gameState.score,
+    time: new Date().toLocaleString(),
+  });
+  localStorage.setItem("scoreHistory", JSON.stringify(scoreHistory));
+  showScoreHistory();
+
   guessInput.disabled = true;
   guessButton.disabled = true;
   nextButton.disabled = true;
@@ -511,6 +519,24 @@ function finishGame() {
   });
 }
 
+function showScoreHistory() {
+  scoreHistoryList.replaceChildren();
+
+  if (scoreHistory.length === 0) {
+    const noHistoryItem = document.createElement("li");
+    noHistoryItem.textContent = "Chưa có lịch sử điểm số";
+    scoreHistoryList.appendChild(noHistoryItem);
+    return;
+  }
+
+  const newestFirstHistory = [...scoreHistory].reverse();
+  newestFirstHistory.forEach((e) => {
+    const historyItem = document.createElement("li");
+    historyItem.textContent = `Score: ${e.score} - Time: ${e.time}`;
+    scoreHistoryList.appendChild(historyItem);
+  });
+}
+
 listenMoreButton.addEventListener("click", handleListenMore);
 replayButton.addEventListener("click", handleReplay);
 skipButton.addEventListener("click", handleSkipSong);
@@ -520,11 +546,22 @@ nextButton.addEventListener("click", startNextRound);
 resetGenreButton.addEventListener("click", handleResetGenre);
 closeModalButton.addEventListener("click", () => {
   modalElement.style.display = "none";
-})
+});
 retryButton.addEventListener("click", handleRetry);
 
 genreButtons.forEach((button) => {
   button.addEventListener("click", () => selectGenre(button.dataset.genre));
+});
+
+showScoreHistoryButton.addEventListener("click", () => {
+  scoreHistoryList.hidden = !scoreHistoryList.hidden;
+  showScoreHistoryButton.textContent = scoreHistoryList.hidden
+    ? "Show Score History"
+    : "Hide Score History";
+
+  if (!scoreHistoryList.hidden) {
+    showScoreHistory();
+  }
 });
 
 updateVolume();
