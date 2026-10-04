@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thêm bài hát | Đoán tên bài hát</title>
+    <link rel="stylesheet" href="./css/upload.css" />
+  </head>
+  <body>
+    <main class="upload-container">
+      <a class="back-link" href="./index.html">← Về trang đoán bài hát</a>
+      <h1 class="upload-heading">Thêm bài hát</h1>
+      <p class="upload-description">
+        Điền thông tin và chọn file nhạc để thêm vào thư viện.
+        Các trường có dấu * là bắt buộc.
+      </p>
+
+      <form id="upload-form" class="upload-form" method="post" enctype="multipart/form-data">
+        <div class="form-field">
+          <label for="title">Tên bài hát *</label>
+          <input id="title" name="title" type="text" maxlength="255"
+            placeholder="Nhập tên bài hát" required />
+        </div>
+
+        <div class="form-field">
+          <label for="artist">Ca sĩ *</label>
+          <input id="artist" name="artist" type="text" maxlength="255"
+            placeholder="Nhập tên ca sĩ" required />
+        </div>
+
+        <div class="form-field">
+          <label for="genre">Thể loại *</label>
+          <select id="genre" name="genre" required>
+            <option value="" disabled selected>Chọn thể loại</option>
+            <option value="Vpop">Vpop</option>
+            <option value="Jpop">Jpop</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="audio">File nhạc *</label>
+          <input id="audio" name="audio" type="file"
+            accept=".mp3,.wav,.ogg,.m4a,.aac,.flac"
+            aria-describedby="audio-hint" required />
+          <p id="audio-hint" class="field-hint">
+            MP3, WAV, OGG, M4A, AAC hoặc FLAC. Tối đa 20 MB.
+          </p>
+        </div>
+
+        <div class="form-field">
+          <label for="image">Ảnh bìa (không bắt buộc)</label>
+          <input id="image" name="image" type="file"
+            accept=".jpg,.jpeg,.png,.webp,.gif" aria-describedby="image-hint" />
+          <p id="image-hint" class="field-hint">
+            JPG, PNG, WebP hoặc GIF. Tổng dung lượng nhạc và ảnh nên dưới 25 MB.
+          </p>
+        </div>
+
+        <div class="form-actions">
+          <button id="upload-button" type="submit" aria-describedby="upload-status">
+            Tải bài hát lên
+          </button>
+          <button type="reset">Nhập lại</button>
+        </div>
+        <p id="upload-status" class="upload-status" role="status" aria-live="polite">
+          Chọn file và nhấn Tải bài hát lên.
+        </p>
+      </form>
+    </main>
+    <script type="module" src="./js/upload.js"></script>
+  </body>
+</html>

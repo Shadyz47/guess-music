@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tất cả bài hát | Đoán tên bài hát</title>
+    <link rel="stylesheet" href="./css/allSong.css" />
+  </head>
+  <body>
+    <main id="all-songs" class="library">
+      <nav class="navigation" aria-label="Điều hướng">
+        <a class="back-link" href="./index.html">← Về trang đoán bài hát</a>
+        <span class="brand">♫ GUESS MUSIC</span>
+      </nav>
+
+      <header class="library-header">
+        <div>
+          <p class="eyebrow">THƯ VIỆN ÂM NHẠC</p>
+          <h1>Tất cả bài hát</h1>
+          <p class="description">
+            Khám phá những giai điệu trong bộ sưu tập của bạn.
+          </p>
+        </div>
+        <a class="button primary-button" href="./upload.html">+ Thêm bài hát</a>
+      </header>
+
+      <section class="song-panel" aria-label="Danh sách bài hát">
+        <div class="toolbar">
+          <div class="search-field">
+            <label for="song-search">Tìm bài hát</label>
+            <input
+              id="song-search"
+              type="search"
+              placeholder="Tên bài hát hoặc ca sĩ…"
+              autocomplete="off"
+              disabled
+            />
+          </div>
+          <div class="genre-field">
+            <label for="genre-filter">Thể loại</label>
+            <select id="genre-filter" disabled>
+              <option value="">Tất cả thể loại</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="list-heading">
+          <h2>Danh sách bài hát</h2>
+          <span id="song-count" role="status"></span>
+        </div>
+        <div class="column-headings" aria-hidden="true">
+          <span>#</span><span>Bài hát / Ca sĩ</span><span>Thể loại</span
+          ><span>Thao tác</span>
+        </div>
+        <ul
+          id="all-songs-list"
+          class="song-list"
+          aria-label="Bài hát"
+          aria-busy="true"
+        ></ul>
+        <div id="list-state" class="list-state">
+          <span class="state-icon" aria-hidden="true">♫</span>
+          <p id="list-message" role="status">Đang tải danh sách bài hát…</p>
+          <button id="retry-button" class="button" type="button" hidden>
+            Thử lại
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <template id="song-template">
+      <li class="song-row">
+        <span class="song-number" aria-hidden="true"></span>
+        <div class="song-info">
+          <div class="song-cover"><span aria-hidden="true">♪</span></div>
+          <div class="song-details">
+            <h3 class="song-title"></h3>
+            <p class="song-artist"></p>
+          </div>
+        </div>
+        <span class="song-genre"></span>
+        <button
+          class="edit-button"
+          type="button"
+          aria-label="Chỉnh sửa bài hát"
+        >
+          Sửa
+        </button>
+
+        <button class="delete-button" type="button" aria-label="Xóa bài hát">
+          Xóa
+        </button>
+      </li>
+    </template>
+
+    <dialog id="edit-modal" aria-labelledby="edit-heading">
+      <h2 id="edit-heading">Chỉnh sửa bài hát</h2>
+
+      <form id="edit-form">
+        <label for="edit-title">Tên bài hát</label>
+        <input id="edit-title" name="title" required />
+
+        <label for="edit-artist">Ca sĩ</label>
+        <input id="edit-artist" name="artist" required />
+
+        <label for="edit-genre">Thể loại</label>
+        <input id="edit-genre" name="genre" required />
+
+        <div class="modal-actions">
+          <button type="button" id="cancel-edit" class="button">Hủy</button>
+          <button type="submit" class="button primary-button">
+            Lưu thay đổi
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <script type="module" src="./js/allSong.js"></script>
+  </body>
+</html>

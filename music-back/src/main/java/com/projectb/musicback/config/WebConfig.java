@@ -40,7 +40,8 @@ public class WebConfig implements WebMvcConfigurer {
     ) {
         registry
                 .addMapping("/api/**")
-                .allowedOrigins("http://127.0.0.1:8082")
-                .allowedMethods("GET");
+                .allowedOrigins("http://127.0.0.1:8082", "http://localhost:8082")
+                .allowedMethods("GET", "POST","DELETE","PUT");
+
     }
 }

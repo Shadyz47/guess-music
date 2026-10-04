@@ -11,10 +11,15 @@
 
 body {
   display: grid;
-  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  grid-template-columns: minmax(220px, 280px) minmax(0, 800px);
+  justify-content: center;
+  align-items: start;
+  gap: 32px;
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  padding: 40px 32px;
+  line-height: 1.5;
   background:
     radial-gradient(circle at 12% 8%, #e8ddff 0, transparent 32%),
     radial-gradient(circle at 90% 20%, #dff4ff 0, transparent 28%),
@@ -23,14 +28,15 @@ body {
 
 aside {
   min-width: 0;
-  padding: 24px 0 24px 24px;
+  position: sticky;
+  top: 24px;
 }
 
 .sidebar {
   position: sticky;
   top: 24px;
   isolation: isolate;
-  height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
   padding: 24px 20px;
   overflow-y: auto;
   border: 1px solid #e3dff2;
@@ -57,7 +63,8 @@ aside {
 .sidebar h1 {
   margin-bottom: 18px;
   color: #33276f;
-  font-size: 1.35rem;
+  font-size: 1.15rem;
+  line-height: 1.5;
   letter-spacing: -0.02em;
   text-align: left;
 }
@@ -133,9 +140,45 @@ aside {
 }
 
 .main-container {
-  width: min(720px, calc(100% - 32px));
+  width: 100%;
+  min-width: 0;
   margin: 0 auto;
-  padding: 56px 0 72px;
+  padding: 24px 0 40px;
+}
+
+.main-container > h1 {
+  margin-bottom: 16px;
+  text-wrap: balance;
+}
+
+.main-container > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  margin: 0 auto 32px;
+  padding: 9px 16px;
+  border: 1px solid #ddd7f2;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 75%);
+  color: #5944a9;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.main-container > a::after {
+  content: "\2192";
+}
+
+.main-container > a:hover {
+  border-color: #a58cfa;
+  background: #eee9ff;
 }
 
 h1 {
@@ -157,23 +200,23 @@ h1 {
 }
 
 .genre-selection {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
   align-items: center;
   gap: 12px;
   padding: 22px 24px;
 }
 
 .genre-selection p {
-  flex-basis: 100%;
-  margin: 0 0 2px;
+  grid-column: 1 / -1;
+  margin: 0 0 6px;
   color: #565672;
   font-size: 0.95rem;
   font-weight: 700;
 }
 
 button {
-  min-height: 42px;
+  min-height: 46px;
   padding: 10px 18px;
   border: 1px solid #ddd9ee;
   border-radius: 12px;
@@ -201,6 +244,7 @@ button:not(:disabled):active {
 }
 
 button:focus-visible,
+a:focus-visible,
 input:focus-visible {
   outline: 3px solid #ab9bff;
   outline-offset: 3px;
@@ -219,6 +263,16 @@ input:disabled {
   box-shadow: 0 6px 16px rgb(99 70 216 / 22%);
 }
 
+.genre-button {
+  min-height: 60px;
+  background: #f8f6ff;
+  font-size: 1.05rem;
+}
+
+.genre-button[aria-pressed="true"]:disabled {
+  opacity: 1;
+}
+
 .genre-button[aria-pressed="true"]:not(:disabled):hover {
   border-color: #5438c8;
   background: #5438c8;
@@ -231,7 +285,12 @@ input:disabled {
 
 #message {
   min-height: 24px;
-  margin: 24px 4px;
+  margin: 20px 0;
+  padding: 12px 16px;
+  border: 1px solid #e3dff2;
+  border-radius: 12px;
+  background: rgb(255 255 255 / 65%);
+  overflow-wrap: anywhere;
   color: #5e5678;
   font-weight: 600;
   line-height: 1.5;
@@ -239,23 +298,27 @@ input:disabled {
 }
 
 #game-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 12px;
   padding: 28px;
 }
 
-#game-container[hidden] {
-  display: none;
+[hidden] {
+  display: none !important;
 }
 
 #score,
 #listen-status {
-  display: inline-block;
-  margin: 0 10px 20px 0;
+  grid-column: span 2;
+  margin: 0;
   padding: 9px 14px;
   border-radius: 999px;
   background: #f2efff;
   color: #5944a9;
   font-size: 0.9rem;
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 #listen-status {
@@ -269,11 +332,25 @@ audio {
   margin: 0 0 24px;
 }
 
+audio:not([controls]) {
+  display: none;
+}
+
+.volume-control,
+#guess-form,
+.song-info,
+#retry-button,
+#time-down:not(:empty),
+audio {
+  grid-column: 1 / -1;
+}
+
 .volume-control {
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 26px;
+  margin: 4px 0;
+  padding: 14px 0;
   color: #565672;
   font-size: 0.92rem;
   font-weight: 600;
@@ -284,6 +361,7 @@ audio {
   min-width: 0;
   accent-color: #6346d8;
   cursor: pointer;
+  min-height: 24px;
 }
 
 #volume-value {
@@ -294,7 +372,7 @@ audio {
 #guess-form {
   display: flex;
   gap: 10px;
-  margin-bottom: 18px;
+  margin: 0 0 4px;
 }
 
 #guess-input {
@@ -335,7 +413,15 @@ audio {
 #replay-button,
 #skip-button,
 #next-button {
-  margin: 0 8px 10px 0;
+  margin: 0;
+  padding-inline: 10px;
+  overflow-wrap: anywhere;
+}
+
+#retry-button {
+  border-color: #cfc5f4;
+  background: #f2efff;
+  color: #5438c8;
 }
 
 #skip-button {
@@ -348,9 +434,14 @@ audio {
 }
 
 .song-info {
-  margin-top: 14px;
-  padding-top: 4px;
+  margin-top: 4px;
+  padding-top: 12px;
   border-top: 1px solid #eeecf5;
+  overflow-wrap: anywhere;
+}
+
+.song-info:not(:has(p:not(:empty))) {
+  display: none;
 }
 
 .song-info p {
@@ -360,6 +451,10 @@ audio {
 }
 
 .song-info p:empty {
+  display: none;
+}
+
+#time-down:empty {
   display: none;
 }
 
@@ -380,7 +475,7 @@ audio {
 }
 
 #song-artist.color-yellow {
-  color: #7ba408;
+  color: #526f05;
   font-weight: 700;
 }
 
@@ -390,6 +485,9 @@ audio {
 }
 
 #all-songs-list {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 0;
   padding: 0;
   list-style: none;
 }
@@ -398,10 +496,14 @@ audio {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid #e8e4f5;
+  border-radius: 12px;
+  background: #faf9fe;
 }
 
 #all-songs-list img {
+  flex-shrink: 0;
   width: 56px;
   height: 56px;
   border-radius: 8px;
@@ -409,9 +511,25 @@ audio {
 }
 
 .song-details {
-  color: #1010d0;
+  min-width: 0;
+  color: #554c74;
   font-size: 0.95rem;
   font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+#all-songs-container {
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid #e8e7f3;
+  border-radius: 20px;
+  background: rgb(255 255 255 / 92%);
+}
+
+#all-songs-title {
+  margin: 0;
+  color: #33276f;
+  font-size: 1.2rem;
 }
 
 .modal {
@@ -419,8 +537,6 @@ audio {
   position: fixed;
   z-index: 1000;
   inset: 0;
-  width: 100vw;
-  height: 100vh;
   padding: 24px;
   overflow: auto;
   background: rgb(24 20 48 / 62%);
@@ -430,9 +546,8 @@ audio {
 
 .modal-content {
   position: relative;
-  top: 50%;
   width: min(100%, 420px);
-  margin: 0 auto;
+  margin: max(0px, calc(50dvh - 160px)) auto 0;
   padding: 42px 36px 36px;
   border: 1px solid rgb(255 255 255 / 65%);
   border-radius: 24px;
@@ -441,7 +556,6 @@ audio {
     #fff;
   box-shadow: 0 28px 80px rgb(20 14 52 / 32%);
   text-align: center;
-  transform: translateY(-50%);
   animation: modal-content-in 220ms ease-out;
 }
 
@@ -496,9 +610,11 @@ audio {
 #time-down:not(:empty) {
   display: inline-flex;
   min-height: 38px;
-  margin: 0 0 10px 2px;
+  margin: 0;
   padding: 8px 13px;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   border: 1px solid #d8d0fa;
   border-radius: 999px;
   background: #f3f0ff;
@@ -507,7 +623,7 @@ audio {
   font-weight: 800;
   letter-spacing: 0.01em;
   vertical-align: top;
-  animation: countdown-pulse 1s ease-in-out infinite;
+  font-variant-numeric: tabular-nums;
 }
 
 @keyframes modal-backdrop-in {
@@ -519,21 +635,41 @@ audio {
 @keyframes modal-content-in {
   from {
     opacity: 0;
-    transform: translateY(calc(-50% + 18px)) scale(0.97);
+    transform: translateY(18px) scale(0.97);
   }
 }
 
-@keyframes countdown-pulse {
-  50% {
-    border-color: #a996f1;
-    background: #ebe5ff;
-    box-shadow: 0 0 0 4px rgb(99 70 216 / 8%);
+@media (max-width: 900px) {
+  body {
+    grid-template-columns: minmax(0, 720px);
+    align-content: start;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  aside {
+    position: static;
+    grid-row: 2;
+  }
+
+  .sidebar {
+    position: static;
+    max-height: 300px;
+  }
+
+  .main-container {
+    grid-row: 1;
+    padding: 16px 0 0;
   }
 }
 
 @media (max-width: 540px) {
+  body {
+    padding: 16px;
+  }
+
   .main-container {
-    padding-top: 36px;
+    padding-top: 20px;
   }
 
   h1 {
@@ -542,11 +678,17 @@ audio {
 
   .genre-selection,
   #game-container {
-    padding: 20px;
+    padding: 18px;
     border-radius: 18px;
   }
 
+  .genre-selection,
+  #game-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .reset-button {
+    grid-column: 1 / -1;
     margin-left: 0;
   }
 
@@ -558,24 +700,17 @@ audio {
     width: 100%;
   }
 
-  #listen-more-button,
-  #replay-button,
-  #skip-button,
-  #next-button {
-    width: calc(50% - 16px);
-    margin-right: 8px;
-    vertical-align: top;
+  .volume-control {
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
-  #replay-button,
-  #next-button {
-    margin-right: 0;
+  .volume-control label {
+    flex-basis: 100%;
   }
 
-  #time-down:not(:empty) {
-    width: calc(50% - 8px);
-    margin-left: 0;
-    justify-content: center;
+  #all-songs-container {
+    padding: 18px;
   }
 
   .modal {
@@ -588,30 +723,10 @@ audio {
   }
 }
 
-@media (max-width: 900px) {
-  body {
-    display: block;
-  }
-
-  aside {
-    padding: 24px 16px 0;
-  }
-
-  .sidebar {
-    position: static;
-    width: min(720px, 100%);
-    height: auto;
-    max-height: 280px;
-    margin: 0 auto;
-  }
-
-  .main-container {
-    padding-top: 32px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   button,
+  .main-container > a,
+  .close,
   .modal,
   .modal-content,
   #score-history-list li,
